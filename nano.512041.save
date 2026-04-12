@@ -1,0 +1,14 @@
+[Unit]
+Description=NoirBot Telegram
+After=network.target
+
+[Service]
+User=root
+WorkingDirectory=/root/tagallbot
+
+ExecStart=/root/tagallbot/venv/bin/python bot.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
