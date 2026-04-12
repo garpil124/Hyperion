@@ -32,7 +32,6 @@ OWNER_IDS = [8209644174, 5674665043, 8730304700]
 PARTNER_FILE = "partner.json0"
 SETTING_FILE = "setting.json0"
 BUTTON_FILE = "buttons.json0"
-AUTO_TAG_FILE = "autotag.json0"
 LOG_CHAT_ID = -1003812690414
 QUEUE_FILE = "queue.json0"
 
