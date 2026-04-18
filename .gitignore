@@ -1,1 +1,4 @@
 venv/
+backup_partner/
+*.json
+*.session
