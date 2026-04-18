@@ -2,3 +2,4 @@ venv/
 backup_partner/
 *.json
 *.session
+__pycache__/
