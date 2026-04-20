@@ -504,22 +504,20 @@ def cancel_cmd(update, context):
         context.bot.send_message(chat.id, "⛔ Tagall dihentikan")
     except:
         pass
+        
 
 # ================= LIST COMMAND =================
 def list_partner(update, context):
-    print("🔥 list_partner kepanggil")  # DEBUG
+    print("🔥 list_partner kepanggil")
 
     if update.effective_user.id not in OWNER_IDS:
-        print("❌ bukan owner")  # DEBUG
         return
 
-    send_partner_page(update, context, page=0)
+    send_partner_page_message(update, context, 0)
 
 
-# ================= SEND PAGE =================
-def send_partner_page(update, context, page):
-    print(f"📄 kirim halaman: {page}")  # DEBUG
-
+# ================= SEND (FROM COMMAND) =================
+def send_partner_page_message(update, context, page):
     data = load_partner()
 
     if not data:
@@ -533,83 +531,105 @@ def send_partner_page(update, context, page):
     text = f"📋 LIST PARTNER\nHalaman {page+1}\n\n"
 
     for i, p in enumerate(data[start:end], start + 1):
-        text += f"{i}. {p.get('name','-')}\n"
-        text += f"{p.get('link','-')}\n\n"
+        text += f"{i}. {p.get('name','-')}\n{p.get('link','-')}\n\n"
 
-    buttons = []
+    buttons = build_buttons(page, total)
 
-    if page > 0:
-        buttons.append(InlineKeyboardButton("⬅️ Prev", callback_data=f"partner_{page-1}"))
-
-    if end < total:
-        buttons.append(InlineKeyboardButton("➡️ Next", callback_data=f"partner_{page+1}"))
-
-    buttons.append(InlineKeyboardButton("❌ Close", callback_data="partner_close"))
-
-    keyboard = InlineKeyboardMarkup([buttons])
-
-    update.message.reply_text(text, reply_markup=keyboard)
+    update.message.reply_text(text, reply_markup=buttons)
 
 
-# ================= CALLBACK =================
-def partner_callback(update, context):
-    print("🔥 CALLBACK MASUK")  # DEBUG
+# ================= SEND (FROM CALLBACK MENU) =================
+def send_partner_page_callback(query, context, page):
+    data = load_partner()
 
-    query = update.callback_query
-
-    try:
-        query.answer()
-    except Exception as e:
-        print("❌ query.answer error:", e)
-
-    data = query.data
-    print("📩 DATA CALLBACK:", data)  # DEBUG
-
-    if data == "partner_close":
-        print("❌ tombol close ditekan")  # DEBUG
-        query.message.delete()
+    if not data:
+        query.message.reply_text("❌ kosong")
         return
 
-    try:
-        page = int(data.split("_")[1])
-    except Exception as e:
-        print("❌ parse page error:", e)
-        return
-
-    partners = load_partner()
-
-    total = len(partners)
+    total = len(data)
     start = page * PAGE_SIZE
     end = start + PAGE_SIZE
 
     text = f"📋 LIST PARTNER\nHalaman {page+1}\n\n"
 
-    for i, p in enumerate(partners[start:end], start + 1):
-        text += f"{i}. {p.get('name','-')}\n"
-        text += f"{p.get('link','-')}\n\n"
+    for i, p in enumerate(data[start:end], start + 1):
+        text += f"{i}. {p.get('name','-')}\n{p.get('link','-')}\n\n"
 
+    buttons = build_buttons(page, total)
+
+    query.message.reply_text(text, reply_markup=buttons)
+
+
+# ================= BUILD BUTTON =================
+def build_buttons(page, total):
     buttons = []
 
     if page > 0:
         buttons.append(InlineKeyboardButton("⬅️ Prev", callback_data=f"partner_{page-1}"))
 
-    if end < total:
+    if (page + 1) * PAGE_SIZE < total:
         buttons.append(InlineKeyboardButton("➡️ Next", callback_data=f"partner_{page+1}"))
 
     buttons.append(InlineKeyboardButton("❌ Close", callback_data="partner_close"))
 
-    keyboard = InlineKeyboardMarkup([buttons])
+    return InlineKeyboardMarkup([buttons])
+
+
+# ================= CALLBACK PARTNER =================
+def partner_callback(update, context):
+    print("🔥 CALLBACK PARTNER")
+
+    query = update.callback_query
+    query.answer()
+
+    data = query.data
+    print("DATA:", data)
+
+    if data == "partner_close":
+        query.message.delete()
+        return
 
     try:
-        query.edit_message_text(text, reply_markup=keyboard)
-    except Exception as e:
-        print("❌ edit message error:", e)
+        page = int(data.split("_")[1])
+    except:
+        return
+
+    data_list = load_partner()
+    total = len(data_list)
+
+    start = page * PAGE_SIZE
+    end = start + PAGE_SIZE
+
+    text = f"📋 LIST PARTNER\nHalaman {page+1}\n\n"
+
+    for i, p in enumerate(data_list[start:end], start + 1):
+        text += f"{i}. {p.get('name','-')}\n{p.get('link','-')}\n\n"
+
+    buttons = build_buttons(page, total)
+
+    query.edit_message_text(text, reply_markup=buttons)
 
 
-# ================= REGISTER HANDLER =================
+# ================= CALLBACK MENU =================
+def menu_callback(update, context):
+    print("🔥 CALLBACK MENU")
+
+    query = update.callback_query
+    query.answer()
+
+    data = query.data
+    print("MENU DATA:", data)
+
+    if data == "cmd_listpartner":
+        send_partner_page_callback(query, context, 0)
+
+
+# ================= REGISTER =================
 def register_partner(dp):
     dp.add_handler(CallbackQueryHandler(partner_callback, pattern="^partner_"))
-
+    dp.add_handler(CallbackQueryHandler(menu_callback, pattern="^cmd_"))
+    
+    
 def fancy_name(text):
     fonts = [
         ("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
@@ -2042,7 +2062,7 @@ def main():
     dp.add_handler(CommandHandler("off", off_cmd))
     dp.add_handler(CommandHandler("on", on_cmd))
     dp.add_handler(CommandHandler("bc", bc_cmd))
-
+    dp.add_handler(CommandHandler("listpartner", list_partner))
     # 🔥 TAGALL MANUAL
     dp.add_handler(CommandHandler("tagall", tagall_cmd))
     dp.add_handler(CommandHandler("cancel", cancel_cmd))
