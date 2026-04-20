@@ -1874,7 +1874,7 @@ def handle_private(update: Update, context: CallbackContext):
     # ================= FILTER AWAL =================
 
     if not WORKER_ACTIVE:
-        msg.reply_text("❌ Maaf, tagall sedang OFF")
+        msg.reply_text("❌ Maaf, sedang close tagall")
         return
 
     if not text:
@@ -1997,8 +1997,7 @@ def restore_cmd(update, context):
             valid = (
                 "setting.json0" in files or
                 "partner.json0" in files or
-                "buttons.json0" in files or
-                "autotag.json0" in files
+                "buttons.json0" in files 
             )
 
             if not valid:
@@ -2028,7 +2027,7 @@ def restore_cmd(update, context):
         update.message.reply_text("✅ restore sukses, bot akan restart...")
 
         # ================= AUTO RESTART =================
-        os.execv("/root/tagallbot/venv/bin/python", ["python", "bot0.py"])
+        os.execv("/root/Hyperionn/venv/bin/python", ["python", "bot0.py"])
 
     except Exception as e:
         update.message.reply_text(f"❌ restore gagal\n{e}")
@@ -2048,14 +2047,19 @@ def main():
 
     bot = updater.bot
 
-    # 🔥 LOAD DATA
-    load_autotag()
-
     # 🔥 DATABASE
     database0.start_database_system(bot)
 
     dp = updater.dispatcher
 
+    register_menu(dp)
+    register_rekab(dp)
+    register_fitur(dp)
+    register_font(dp)
+    register_font (dp)
+    register_absen (dp)
+    register_partner(dp)
+    register_jobdast (dp)
     # ================= COMMAND =================
     dp.add_handler(CommandHandler("restore", restore_cmd))
     dp.add_handler(CommandHandler("start", start_cmd))
