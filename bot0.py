@@ -2048,6 +2048,7 @@ def main():
     register_font(dp)
     register_font (dp)
     register_absen (dp)
+    register_partner(dp)
     # ================= COMMAND =================
     dp.add_handler(CommandHandler("restore", restore_cmd))
     dp.add_handler(CommandHandler("start", start_cmd))
