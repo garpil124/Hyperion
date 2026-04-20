@@ -628,7 +628,50 @@ def menu_callback(update, context):
 def register_partner(dp):
     dp.add_handler(CallbackQueryHandler(partner_callback, pattern="^partner_"))
     dp.add_handler(CallbackQueryHandler(menu_callback, pattern="^cmd_"))
-    
+
+def addbuttontag_cmd(update, context):
+    print("🔥 addbuttontag kepanggil")
+
+    chat = update.effective_chat
+    user = update.effective_user
+
+    # 🔥 HARUS PRIVATE
+    if chat.type != "private":
+        update.message.reply_text("❌ Gunakan di private bot")
+        return
+
+    # 🔥 OWNER ONLY
+    if user.id not in OWNER_IDS:
+        update.message.reply_text("❌ Khusus owner")
+        return
+
+    # 🔥 FORMAT
+    if not context.args:
+        update.message.reply_text("Format:\n/addbuttontag NAMA - LINK")
+        return
+
+    text = " ".join(context.args)
+
+    if "-" not in text:
+        update.message.reply_text("Format:\n/addbuttontag NAMA - LINK")
+        return
+
+    name, link = text.split("-", 1)
+    name = name.strip()
+    link = link.strip()
+
+    # 🔥 LOOP SEMUA TARGET CHAT
+    for gc_id in TARGET_CHATS:
+        custom_buttons[str(gc_id)] = {
+            "name": name,
+            "link": link
+        }
+
+    save_partner(custom_buttons)
+
+    update.message.reply_text(
+        f"✅ Button diset ke {len(TARGET_CHATS)} grup\n{name} -> {link}"
+    )
     
 def fancy_name(text):
     fonts = [
