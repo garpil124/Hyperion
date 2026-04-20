@@ -23,7 +23,7 @@ from emoji import build_emoji
 from rekab import register_rekab
 from font import register_font
 from absen import register_absen
-from jobdast import regester_jobdast
+from jobdast import register_jobdast
 
 loop = asyncio.new_event_loop()
 asyncio.set_event_loop(loop)
@@ -507,7 +507,10 @@ def cancel_cmd(update, context):
 
 # ================= LIST COMMAND =================
 def list_partner(update, context):
+    print("🔥 list_partner kepanggil")  # DEBUG
+
     if update.effective_user.id not in OWNER_IDS:
+        print("❌ bukan owner")  # DEBUG
         return
 
     send_partner_page(update, context, page=0)
@@ -515,6 +518,8 @@ def list_partner(update, context):
 
 # ================= SEND PAGE =================
 def send_partner_page(update, context, page):
+    print(f"📄 kirim halaman: {page}")  # DEBUG
+
     data = load_partner()
 
     if not data:
@@ -525,13 +530,12 @@ def send_partner_page(update, context, page):
     start = page * PAGE_SIZE
     end = start + PAGE_SIZE
 
-    text = f"📋 𝐋𝐈𝐒𝐓 𝐏𝐀𝐑𝐓𝐍𝐄𝐑\nHalaman {page+1}\n\n"
+    text = f"📋 LIST PARTNER\nHalaman {page+1}\n\n"
 
     for i, p in enumerate(data[start:end], start + 1):
-        text += f"〔{i}〕 {p.get('name','-')}\n"
-        text += f"🔗 {p.get('link','-')}\n\n"
+        text += f"{i}. {p.get('name','-')}\n"
+        text += f"{p.get('link','-')}\n\n"
 
-    # tombol
     buttons = []
 
     if page > 0:
@@ -540,7 +544,6 @@ def send_partner_page(update, context, page):
     if end < total:
         buttons.append(InlineKeyboardButton("➡️ Next", callback_data=f"partner_{page+1}"))
 
-    # tombol close
     buttons.append(InlineKeyboardButton("❌ Close", callback_data="partner_close"))
 
     keyboard = InlineKeyboardMarkup([buttons])
@@ -550,29 +553,41 @@ def send_partner_page(update, context, page):
 
 # ================= CALLBACK =================
 def partner_callback(update, context):
+    print("🔥 CALLBACK MASUK")  # DEBUG
+
     query = update.callback_query
-    query.answer()
+
+    try:
+        query.answer()
+    except Exception as e:
+        print("❌ query.answer error:", e)
 
     data = query.data
+    print("📩 DATA CALLBACK:", data)  # DEBUG
 
     if data == "partner_close":
+        print("❌ tombol close ditekan")  # DEBUG
         query.message.delete()
         return
 
-    page = int(data.split("_")[1])
+    try:
+        page = int(data.split("_")[1])
+    except Exception as e:
+        print("❌ parse page error:", e)
+        return
+
     partners = load_partner()
 
     total = len(partners)
     start = page * PAGE_SIZE
     end = start + PAGE_SIZE
 
-    text = f"📋 𝐋𝐈𝐒𝐓 𝐏𝐀𝐑𝐓𝐍𝐄𝐑\nHalaman {page+1}\n\n"
+    text = f"📋 LIST PARTNER\nHalaman {page+1}\n\n"
 
     for i, p in enumerate(partners[start:end], start + 1):
-        text += f"〔{i}〕 {p.get('name','-')}\n"
-        text += f"🔗 {p.get('link','-')}\n\n"
+        text += f"{i}. {p.get('name','-')}\n"
+        text += f"{p.get('link','-')}\n\n"
 
-    # tombol
     buttons = []
 
     if page > 0:
@@ -585,56 +600,15 @@ def partner_callback(update, context):
 
     keyboard = InlineKeyboardMarkup([buttons])
 
-    query.edit_message_text(text, reply_markup=keyboard)
+    try:
+        query.edit_message_text(text, reply_markup=keyboard)
+    except Exception as e:
+        print("❌ edit message error:", e)
 
 
 # ================= REGISTER HANDLER =================
 def register_partner(dp):
     dp.add_handler(CallbackQueryHandler(partner_callback, pattern="^partner_"))
-
-def addbuttontag_cmd(update, context):
-    print("🔥 addbuttontag kepanggil")
-
-    chat = update.effective_chat
-    user = update.effective_user
-
-    # 🔥 HARUS PRIVATE
-    if chat.type != "private":
-        update.message.reply_text("❌ Gunakan di private bot")
-        return
-
-    # 🔥 OWNER ONLY
-    if user.id not in OWNER_IDS:
-        update.message.reply_text("❌ Khusus owner")
-        return
-
-    # 🔥 FORMAT
-    if not context.args:
-        update.message.reply_text("Format:\n/addbuttontag NAMA - LINK")
-        return
-
-    text = " ".join(context.args)
-
-    if "-" not in text:
-        update.message.reply_text("Format:\n/addbuttontag NAMA - LINK")
-        return
-
-    name, link = text.split("-", 1)
-    name = name.strip()
-    link = link.strip()
-
-    # 🔥 LOOP SEMUA TARGET CHAT
-    for gc_id in TARGET_CHATS:
-        custom_buttons[str(gc_id)] = {
-            "name": name,
-            "link": link
-        }
-
-    save_partner(custom_buttons)
-
-    update.message.reply_text(
-        f"✅ Button diset ke {len(TARGET_CHATS)} grup\n{name} -> {link}"
-    )
 
 def fancy_name(text):
     fonts = [
@@ -2049,6 +2023,7 @@ def main():
     register_font (dp)
     register_absen (dp)
     register_partner(dp)
+    register_jobdast (dp)
     # ================= COMMAND =================
     dp.add_handler(CommandHandler("restore", restore_cmd))
     dp.add_handler(CommandHandler("start", start_cmd))
