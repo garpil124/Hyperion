@@ -23,10 +23,11 @@ from emoji import build_emoji
 from rekab import register_rekab
 from font import register_font
 from absen import register_absen
+from jobdast import regester_jobdast
 
 loop = asyncio.new_event_loop()
 asyncio.set_event_loop(loop)
-
+PAGE_SIZE = 10  # jumlah per halaman
 
 TOKEN = "8307438695:AAGsyFa0IJQqv1zI1btvrqQsF4jnvMVLi5Q"
 API_URL = "http://127.0.0.1:5000/get"
@@ -39,7 +40,6 @@ SETTING_FILE = "setting.json0"
 BUTTON_FILE = "buttons.json0"
 LOG_CHAT_ID = -1003812690414
 QUEUE_FILE = "queue.json0"
-AUTO_TAG_FILE = "autotag.json"
 api_id = 33370509
 api_hash = "669af6caebf2aca264b16cf8b40d37b2"
 client = TelegramClient("session_new0", api_id, api_hash)
@@ -504,25 +504,93 @@ def cancel_cmd(update, context):
         context.bot.send_message(chat.id, "⛔ Tagall dihentikan")
     except:
         pass
-        
 
+# ================= LIST COMMAND =================
 def list_partner(update, context):
     if update.effective_user.id not in OWNER_IDS:
         return
 
+    send_partner_page(update, context, page=0)
+
+
+# ================= SEND PAGE =================
+def send_partner_page(update, context, page):
     data = load_partner()
 
     if not data:
         update.message.reply_text("❌ kosong")
         return
 
-    text = "📋 𝐋𝐈𝐒𝐓 𝐏𝐀𝐑𝐓𝐍𝐄𝐑\n\n"
+    total = len(data)
+    start = page * PAGE_SIZE
+    end = start + PAGE_SIZE
 
-    for i, p in enumerate(data, 1):
+    text = f"📋 𝐋𝐈𝐒𝐓 𝐏𝐀𝐑𝐓𝐍𝐄𝐑\nHalaman {page+1}\n\n"
+
+    for i, p in enumerate(data[start:end], start + 1):
         text += f"〔{i}〕 {p.get('name','-')}\n"
         text += f"🔗 {p.get('link','-')}\n\n"
 
-    update.message.reply_text(text)
+    # tombol
+    buttons = []
+
+    if page > 0:
+        buttons.append(InlineKeyboardButton("⬅️ Prev", callback_data=f"partner_{page-1}"))
+
+    if end < total:
+        buttons.append(InlineKeyboardButton("➡️ Next", callback_data=f"partner_{page+1}"))
+
+    # tombol close
+    buttons.append(InlineKeyboardButton("❌ Close", callback_data="partner_close"))
+
+    keyboard = InlineKeyboardMarkup([buttons])
+
+    update.message.reply_text(text, reply_markup=keyboard)
+
+
+# ================= CALLBACK =================
+def partner_callback(update, context):
+    query = update.callback_query
+    query.answer()
+
+    data = query.data
+
+    if data == "partner_close":
+        query.message.delete()
+        return
+
+    page = int(data.split("_")[1])
+    partners = load_partner()
+
+    total = len(partners)
+    start = page * PAGE_SIZE
+    end = start + PAGE_SIZE
+
+    text = f"📋 𝐋𝐈𝐒𝐓 𝐏𝐀𝐑𝐓𝐍𝐄𝐑\nHalaman {page+1}\n\n"
+
+    for i, p in enumerate(partners[start:end], start + 1):
+        text += f"〔{i}〕 {p.get('name','-')}\n"
+        text += f"🔗 {p.get('link','-')}\n\n"
+
+    # tombol
+    buttons = []
+
+    if page > 0:
+        buttons.append(InlineKeyboardButton("⬅️ Prev", callback_data=f"partner_{page-1}"))
+
+    if end < total:
+        buttons.append(InlineKeyboardButton("➡️ Next", callback_data=f"partner_{page+1}"))
+
+    buttons.append(InlineKeyboardButton("❌ Close", callback_data="partner_close"))
+
+    keyboard = InlineKeyboardMarkup([buttons])
+
+    query.edit_message_text(text, reply_markup=keyboard)
+
+
+# ================= REGISTER HANDLER =================
+def register_partner(dp):
+    dp.add_handler(CallbackQueryHandler(partner_callback, pattern="^partner_"))
 
 def addbuttontag_cmd(update, context):
     print("🔥 addbuttontag kepanggil")
