@@ -18,6 +18,15 @@ from telegram.ext import Updater, MessageHandler, Filters, CallbackContext, Comm
 from telethon import TelegramClient
 import database0
 from emoji import build_emoji
+from fitur import register_fitur
+from user import register_menu
+from emoji import build_emoji
+from rekab import register_rekab
+from font import register_font
+from absen import register_absen
+from jobdast import register_jobdast
+
+PAGE_SIZE = 10  # jumlah per halaman
 
 loop = asyncio.new_event_loop()
 asyncio.set_event_loop(loop)
