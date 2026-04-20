@@ -632,6 +632,11 @@ def register_partner(dp):
 def addbuttontag_cmd(update, context):
     print("🔥 addbuttontag kepanggil")
 
+    update.message.reply_text("✅ addbuttontag aktif")
+
+def addbuttontag_cmd(update, context):
+    print("🔥 addbuttontag kepanggil")
+
     chat = update.effective_chat
     user = update.effective_user
 
