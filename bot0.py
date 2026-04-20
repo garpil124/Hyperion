@@ -22,6 +22,7 @@ from user import register_menu
 from emoji import build_emoji
 from rekab import register_rekab
 from font import register_font
+from absen import register_absen
 
 loop = asyncio.new_event_loop()
 asyncio.set_event_loop(loop)
@@ -1978,6 +1979,7 @@ def main():
     register_fitur(dp)
     register_font(dp)
     register_font (dp)
+    register_absen (dp)
     # ================= COMMAND =================
     dp.add_handler(CommandHandler("restore", restore_cmd))
     dp.add_handler(CommandHandler("start", start_cmd))
