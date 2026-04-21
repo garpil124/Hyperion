@@ -2100,7 +2100,7 @@ def main():
     load_autotag()
 
     # 🔥 DATABASE
-    database9.start_system(bot)
+    database0.start_system(bot)
 
     dp = updater.dispatcher
 
@@ -2108,7 +2108,8 @@ def main():
     dp.add_handler(CommandHandler("restore", restore_cmd))
     dp.add_handler(CommandHandler("start", start_cmd))
     dp.add_handler(CommandHandler("help", help_owner))
-
+    dp.add_handler(CommandHandler("addlivechat", add_livechat))
+    dp.add_handler(CommandHandler("dellivechat", del_livechat))
     dp.add_handler(CommandHandler("addpartner", add_partner))
     dp.add_handler(CommandHandler("delpartner", del_partner))
     dp.add_handler(CommandHandler("listpartner", list_partner))
