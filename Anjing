@@ -22,27 +22,27 @@ from font import register_font
 from absen import register_absen
 from jobdast import register_jobdast
 
-
 loop = asyncio.new_event_loop()
 asyncio.set_event_loop(loop)
 
-TOKEN = "8685315507:AAEc6ybSHdpZSap5mBTvEiHX4e-o8NVnSvg"
+TOKEN = "8307438695:AAGsyFa0IJQqv1zI1btvrqQsF4jnvMVLi5Q"
 API_URL = "http://127.0.0.1:5000/get"
-TARGET_CHATS = [-1002896045673]
-FORCE_GROUP = -1002896045673   # 🔥 WAJIB (buat cek join)
-FORCE_LINK = "https://t.me/ofcnoirfleur"
-OWNER_IDS = [8209644174, 5744453710]
-PARTNER_FILE = "partner.json9"
-SETTING_FILE = "setting.json5"
-SETTING_FILE = "setting.json5"
-QUEUE_FILE = "queue.json5"
-AUTO_TAG_FILE = "autotag.json5"
-BUTTON_FILE = "buttons.json5"
-BACKUP_DIR = "backups"
+TARGET_CHATS = [-1002430300514]
+FORCE_GROUP = -1002430300514   # 🔥 WAJIB (buat cek join)
+FORCE_LINK = "https://t.me/officialhyperion"
+OWNER_IDS = [8209644174, 5674665043, 8730304700]
+PARTNER_FILE = "partner.json0"
+SETTING_FILE = "setting.json0"
+BUTTON_FILE = "buttons.json0"
+LOG_CHAT_ID = -1003812690414
+QUEUE_FILE = "queue.json0"
+AUTO_TAG_FILE = "autotag.json0"
+BUTTON_FILE = "buttons.json0"
+BACKUP_DIR = "backups0"
 SERVICE_NAME = "hyperionn"
 api_id = 33370509
 api_hash = "669af6caebf2aca264b16cf8b40d37b2"
-client = TelegramClient("session_new8", api_id, api_hash)
+client = TelegramClient("session_new0", api_id, api_hash)
 
 task_queue = Queue()
 running_task = False  # 🔥 ANTI DOUBLE TASK
