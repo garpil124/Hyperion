@@ -20,23 +20,23 @@ import database9
 loop = asyncio.new_event_loop()
 asyncio.set_event_loop(loop)
 
-TOKEN = "8307438695:AAGXU7CXaf4MjWo_8-_kwefs_SS03MDYJqU"
+TOKEN = "8281626455:AAGhZGYsgEyV-VFY4qp3_kkU57RaBVX2ZD4"
 API_URL = "http://127.0.0.1:5000/get"
-TARGET_CHATS = [-1002430300514]
-FORCE_GROUP = -1002430300514   # 🔥 WAJIB (buat cek join)
-FORCE_LINK = "https://t.me/officialhyperion"
-OWNER_IDS = [8209644174, 5744453710, 8730304700]
-PARTNER_FILE = "partner.json0"
-SETTING_FILE = "setting.json0"
-SETTING_FILE = "setting.json0"
-QUEUE_FILE = "queue.json0"
-AUTO_TAG_FILE = "autotag.json0"
-BUTTON_FILE = "buttons.json0"
-BACKUP_DIR = "backups0"
-SERVICE_NAME = "Hyperionn-"
+TARGET_CHATS = [-1002101188966]
+FORCE_GROUP =-1002101188966   # 🔥 WAJIB (buat cek join)
+FORCE_LINK = "https://t.me/tongkrongan_gaje"
+OWNER_IDS = [8209644174, 6479082885, 6220828950]
+PARTNER_FILE = "partner.json99"
+SETTING_FILE = "setting.json99"
+SETTING_FILE = "setting.json99"
+QUEUE_FILE = "queue.json99"
+AUTO_TAG_FILE = "autotag.json99"
+BUTTON_FILE = "buttons.json99"
+BACKUP_DIR = "backups99"
+SERVICE_NAME = "jajalbot"
 api_id = 35873646
 api_hash = "3eaf9faf00e794125b7330d4978ffdce"
-client = TelegramClient("session0", api_id, api_hash)
+client = TelegramClient("session9", api_id, api_hash)
 client.start()
 task_queue = Queue()
 running_task = False  # 🔥 ANTI DOUBLE TASK
@@ -952,6 +952,46 @@ def button_handler(update, context):
             pass
 
         manual_messages[chat_id] = []
+
+# ================= MANUAL BACKUP =================
+def backup_cmd(update, context):
+    global LAST_BACKUP
+
+    user_id = update.effective_user.id
+
+    if user_id not in OWNER_IDS:
+        update.message.reply_text("❌ bukan owner")
+        return
+
+    try:
+        update.message.reply_text("📦 membuat backup...")
+
+        name = f"manual_backup_{int(time.time())}.zip"
+
+        with zipfile.ZipFile(name, 'w', zipfile.ZIP_DEFLATED) as z:
+
+            for f in CORE_FILES:
+                if os.path.exists(f):
+                    z.write(f)
+
+            if os.path.exists("database0"):
+                for root, _, files2 in os.walk("database0"):
+                    for f in files2:
+                        z.write(os.path.join(root, f))
+
+        LAST_BACKUP = name  # 🔥 penting biar rollback bisa pakai ini
+
+        with open(name, "rb") as f:
+            context.bot.send_document(
+                chat_id=update.effective_chat.id,
+                document=f,
+                filename=name
+            )
+
+        update.message.reply_text("✅ backup manual selesai")
+
+    except Exception as e:
+        update.message.reply_text(f"❌ backup gagal: {e}")
                   
 # ================= OWNER SET =================
 
@@ -1188,7 +1228,6 @@ def start_cmd(update: Update, context: CallbackContext):
     data = load_setting()
 
     user_id = update.effective_user.id
-
     users = data.get("users", [])
 
     if user_id not in users:
@@ -1199,27 +1238,30 @@ def start_cmd(update: Update, context: CallbackContext):
     update.message.reply_text("✅ Bot aktif")
 
     # ================= LOADING MESSAGE =================
-    msg = update.message.reply_text("⚡  Initializing...")
+    msg = update.message.reply_text("⚡ Initializing...")
 
     import time
     import os
 
     # ================= RGB GLITCH =================
     glitch = [
-        "⏩ H ",
-        "⏩ H Y ",
-        "⏩ H Y P ",
-        "⏩ H Y P E ",
-        "⏩ H Y P E R ",
-        "⏩ H Y P E R I ",
-        "⏩ H Y P E R I O ",
-        "⏩ H Y P E R I O N ",
-]
+        "▰ T O ▰",
+        "▰ T O N ▰",
+        "▰ T O N G ▰",
+        "▰ T O N G K ▰",
+        "▰ T O N G K R O N G A N ▰",
+        "✦ T O N G K R O N G A N ✦",
+        "░▒▓ H O S T ▓▒░",
+        "▰▰ HOST ACTIVE ▰▰",
+        "░▒▓ G A J E ▓▒░",
+        "⚡ TONGKRONGAN HOST GAJE ⚡"
+    ]
 
-    for g in glitch:
-        time.sleep(0.12)
+    # ================= ANIMATION =================
+    for frame in glitch:
         try:
-            msg.edit_text(g)
+            msg.edit_text(frame)
+            time.sleep(0.4)
         except:
             pass
 
@@ -1257,7 +1299,7 @@ def start_cmd(update: Update, context: CallbackContext):
 
     # ================= FINAL TEXT (FIX CLEAN) =================
     text = (
-    "𓊆 ✨  𝐖𝐄𝐋𝐂𝐎𝐌𝐄 𝐓𝐎 𝗕𝗢𝗧 𝗛𝗬𝗣𝗘𝗥𝗜𝗢𝗡  ✨ 𓊇 \n\n"
+    "𓊆 ✨  𝐖𝐄𝐋𝐂𝐎𝐌𝐄 𝐓𝐎 𝗕𝗢𝗧 𝗛𝗢𝗦𝗧 𝗚𝗔𝗝𝗘 ✨ 𓊇 \n\n"
 
     "╭───────────────╮\n"
     "│ ٬٬ ࣪ ، 𒀭 sistem tagall otomatis & cepat.\n"
@@ -1268,10 +1310,10 @@ def start_cmd(update: Update, context: CallbackContext):
     "✦ 𝐂𝐀𝐑𝐀 𝐏𝐀𝐊𝐀𝐈 ✦\n"
     "⟡ kirim pesan / kata yang ingin ditag\n"
     "⟡ bot auto memproses tagall anda\n"
-    "⟡ jika bot diem tidak jalan silahkan ke live chat\n\n"
+    "⟡ jika mau order host silahkan ke live chat\n\n"
 
     "        ㅤ\n"
-    "     ˖ ╲ ( II.᯽ request & rules partner klik tombol di bawah)"
+    "     ˖ ╲ ( II.᯽ request & rules order klik tombol di bawah)"
 )
     
     # ================= BUTTON =================
@@ -1280,7 +1322,7 @@ def start_cmd(update: Update, context: CallbackContext):
     if "pj" in data:
         buttons.append([
             InlineKeyboardButton(
-                "📩 ✧ 𝑅𝐸𝒬𝒰𝐸𝒮𝒯 𝒫𝒜𝑅𝒯𝒩𝐸𝑅 ✧",
+                "📩 ✧ 𝑪𝑯𝑨𝑵𝑵𝑬𝑳 ✧",
                 url=f"https://t.me/{data['pj']}"
             )
         ])
@@ -1288,7 +1330,7 @@ def start_cmd(update: Update, context: CallbackContext):
     if "rules" in data:
         buttons.append([
             InlineKeyboardButton(
-                "📜 ༺ 𝑹𝑼𝑳𝑬𝑺 𝑷𝑨𝑹𝑻𝑵𝑬𝑹 ༻",
+                "📜 ༺ 𝙍𝙐𝙇𝙀𝙎 𝙊𝙍𝘿𝙀𝙍 ༻",
                 callback_data="rules"
             )
         ])
@@ -1297,7 +1339,7 @@ def start_cmd(update: Update, context: CallbackContext):
     if data.get("livechat"):
         buttons.append([
             InlineKeyboardButton(
-                "💬 ✧ 𝐋𝐈𝐕𝐄 𝐂𝐇𝐀𝐓 ✧",
+                "💬 ✧ 𝙇𝙄𝙑𝙀 𝘾𝙃𝘼𝙏 𝙊𝙍𝘿𝙀𝙍 ✧",
                 url=data["livechat"]
             )
         ])
@@ -1312,7 +1354,7 @@ def start_cmd(update: Update, context: CallbackContext):
         pass
 
     # ================= FOTO SYSTEM =================
-    photo_path = "database0/start.jpg"
+    photo_path = "database99/start.jpg"
 
     if data.get("start_pict"):
         context.bot.send_photo(
@@ -1721,7 +1763,7 @@ def tagall_worker():
                 "🚀 𝐓𝐀𝐆𝐀𝐋𝐋 𝐃𝐈𝐌𝐔𝐋𝐀𝐈\n\n"
                 f"🔗 partner : {partner_link}\n"
                 "⏰ durasi : 5 menit\n"
-                "📍 JIKA BOT EROR SILAHKAN KESINI @livechtBot"
+                "📍 ʲᵃⁿᵍᵃⁿ ˡᵘᵖᵃ ᵒʳᵈᵉʳ ᵈⁱ ʰᵒˢᵗ ᵏⁱᵗᵃ"
             )
 
             keyboard_start = InlineKeyboardMarkup([
@@ -1777,7 +1819,7 @@ def tagall_worker():
                         try:
                             msg = bot.send_message(
                                 chat_id,
-                                f" 💕 𝑩𝑶𝑻 𝑻𝑨𝑮𝑨𝑳𝑳 𝐇𝐘𝐏𝐄𝐑𝐈𝐎𝐍 💖\n\n{text}\n\n{mention_text}",
+                                f" 🎙️ 𝗧𝗢𝗡𝗚𝗞𝗥𝗢𝗡𝗚𝗔𝗡 𝗛𝗢𝗦𝗧 𝗚𝗔𝗝𝗘 🐾\n\n{text}\n\n{mention_text}",
                                 parse_mode="HTML",
                                 timeout=10
                             )
@@ -2019,66 +2061,120 @@ def handle_private(update: Update, context: CallbackContext):
     if not running_task:
         threading.Thread(target=tagall_worker, daemon=True).start()
 
+# ================= CONFIG =================
+DEBUG_MODE = True
+VENV_PYTHON = "/root/autobot/venv/bin/python"
+BOT_FILE = "/root/jajalbot/bot99.py"
 
-# ================= MAIN =================
+LAST_BACKUP = None
 
-def restore_cmd(update, context):
-    if update.effective_user.id != OWNER_ID:
-        return
 
-    if not update.message.reply_to_message or not update.message.reply_to_message.document:
-        update.message.reply_text("❌ reply file zip dengan /restore")
+# ================= DEBUG =================
+def debug_log(msg):
+    if DEBUG_MODE:
+        print(f"[DEBUG] {msg}")
+
+
+# ================= CORE FILES =================
+CORE_FILES = [
+    "setting.json99",
+    "partner.json99",
+    "buttons.json99",
+    "autotag.json99"
+]
+
+
+# ================= ROLLBACK =================
+def rollback_last_backup(update):
+    global LAST_BACKUP
+
+    if not LAST_BACKUP or not os.path.exists(LAST_BACKUP):
+        update.message.reply_text("❌ tidak ada backup")
         return
 
     try:
-        update.message.reply_text("⏳ restore sedang diproses...")
+        update.message.reply_text("🔁 rollback...")
 
-        # ================= DOWNLOAD =================
+        for f in CORE_FILES:
+            if os.path.exists(f):
+                os.remove(f)
+
+        if os.path.exists("database99"):
+            shutil.rmtree("database99")
+
+        with zipfile.ZipFile(LAST_BACKUP, 'r') as z:
+            z.extractall()
+
+        update.message.reply_text("✅ rollback sukses")
+
+    except Exception as e:
+        update.message.reply_text(f"❌ rollback gagal: {e}")
+
+
+# ================= RESTORE =================
+def restore_cmd(update, context):
+    global LAST_BACKUP
+
+    user_id = update.effective_user.id
+
+    if user_id not in OWNER_IDS:
+        update.message.reply_text("❌ bukan owner")
+        return
+
+    if not update.message.reply_to_message or not update.message.reply_to_message.document:
+        update.message.reply_text("❌ reply file zip")
+        return
+
+    try:
+        update.message.reply_text("⏳ restore...")
+
         file = update.message.reply_to_message.document.get_file()
         file.download("restore.zip")
 
-        import zipfile
-        import os
-
-        # ================= VALIDASI ZIP =================
         if not zipfile.is_zipfile("restore.zip"):
-            update.message.reply_text("❌ file bukan zip valid")
+            update.message.reply_text("❌ zip rusak")
             return
 
         with zipfile.ZipFile("restore.zip", 'r') as z:
             files = z.namelist()
+            debug_log(files)
 
-            # ================= VALIDASI ISI =================
-            valid = any("partner.json5" in f for f in files) or \
-                    any("setting.json5" in f for f in files)
-
-            if not valid:
-                update.message.reply_text("❌ isi zip tidak valid")
+            if not any(f in files for f in CORE_FILES):
+                update.message.reply_text("❌ struktur salah")
                 return
 
-            # ================= BACKUP LAMA =================
-            backup_name = f"backup_before_restore_{int(time.time())}.zip"
-            with zipfile.ZipFile(backup_name, 'w') as backup:
-                if os.path.exists("partner.json0"):
-                    backup.write("partner.json0")
-                if os.path.exists("setting.json0"):
-                    backup.write("setting.json0")
+            # ================= BACKUP BEFORE RESTORE =================
+            LAST_BACKUP = f"backup_before_restore_{int(time.time())}.zip"
+
+            with zipfile.ZipFile(LAST_BACKUP, 'w', zipfile.ZIP_DEFLATED) as backup:
+                for f in CORE_FILES:
+                    if os.path.exists(f):
+                        backup.write(f)
+
                 if os.path.exists("database0"):
-                    for root, dirs, files2 in os.walk("database0"):
+                    for root, _, files2 in os.walk("database0"):
                         for f in files2:
                             backup.write(os.path.join(root, f))
+
+            # ================= CLEAN =================
+            for f in CORE_FILES:
+                if os.path.exists(f):
+                    os.remove(f)
+
+            if os.path.exists("database0"):
+                shutil.rmtree("database0")
 
             # ================= EXTRACT =================
             z.extractall()
 
-        update.message.reply_text("✅ restore sukses, bot akan restart...")
+        update.message.reply_text("✅ restore sukses")
 
-        # ================= AUTO RESTART =================
-        import os
-        os.execv("/root/Hyperionn-/venv/bin/python", ["python", "bot0.py"])
+        # ================= VENV RESTART =================
+        os.execv(VENV_PYTHON, ["python", BOT_FILE])
 
     except Exception as e:
-        update.message.reply_text(f"❌ restore gagal\n{e}")
+        debug_log(e)
+        update.message.reply_text(f"❌ restore gagal: {e}")
 
 # ================= MAIN =================
 
