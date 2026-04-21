@@ -212,6 +212,35 @@ def get_group_name(link):
 
     return "Unknown Group"
 
+def add_livechat(update, context):
+    if update.effective_user.id not in OWNER_IDS:
+        return
+
+    if not context.args:
+        return update.message.reply_text(
+            "❌ kirim link\nContoh: /addlivechat https://t.me/xxxx"
+        )
+
+    link = context.args[0]
+
+    if not link.startswith("https://t.me/"):
+        return update.message.reply_text("❌ link harus https://t.me/")
+
+    data = load_setting()
+    data["livechat"] = link
+    save_setting(data)
+
+    update.message.reply_text("✅ Live chat disimpan")
+
+def del_livechat(update, context):
+    if update.effective_user.id not in OWNER_IDS:
+        return
+
+    data = load_setting()
+    data.pop("livechat", None)
+    save_setting(data)
+
+    update.message.reply_text("✅ Live chat dihapus")
 
 # ================= COMMAND =================
 def add_partner(update, context):
