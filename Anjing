@@ -14,7 +14,13 @@ from queue import Queue
 from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import Updater, MessageHandler, Filters, CallbackContext, CommandHandler, CallbackQueryHandler
 from telethon import TelegramClient
-import database9
+import database0
+from fitur import register_fitur
+from emoji import build_emoji
+from rekab import register_rekab
+from font import register_font
+from absen import register_absen
+from jobdast import register_jobdast
 
 
 loop = asyncio.new_event_loop()
@@ -33,7 +39,7 @@ QUEUE_FILE = "queue.json5"
 AUTO_TAG_FILE = "autotag.json5"
 BUTTON_FILE = "buttons.json5"
 BACKUP_DIR = "backups"
-SERVICE_NAME = "noirbot"
+SERVICE_NAME = "hyperionn"
 api_id = 33370509
 api_hash = "669af6caebf2aca264b16cf8b40d37b2"
 client = TelegramClient("session_new8", api_id, api_hash)
