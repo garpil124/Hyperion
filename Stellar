@@ -14,7 +14,7 @@ from queue import Queue
 from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import Updater, MessageHandler, Filters, CallbackContext, CommandHandler, CallbackQueryHandler
 from telethon import TelegramClient
-import database9
+import database99
 
 
 loop = asyncio.new_event_loop()
@@ -2196,7 +2196,7 @@ def main():
     load_autotag()
 
     # 🔥 DATABASE
-    database0.start_system(bot)
+    database99.start_system(bot)
 
     dp = updater.dispatcher
 
