@@ -1259,18 +1259,19 @@ def start_cmd(update: Update, context: CallbackContext):
     "✦ 𝐂𝐀𝐑𝐀 𝐏𝐀𝐊𝐀𝐈 ✦\n"
     "⟡ kirim pesan / kata yang ingin ditag\n"
     "⟡ bot auto memproses tagall anda\n"
-    "⟡ jika bot diem tidak jalan silahkan kesini @livechtBot\n\n"
+    "⟡ jika bot diem tidak jalan silahkan ke live chat\n\n"
 
     "        ㅤ\n"
     "     ˖ ╲ ( II.᯽ request & rules partner klik tombol di bawah)"
 )
+    
     # ================= BUTTON =================
     buttons = []
 
     if "pj" in data:
         buttons.append([
             InlineKeyboardButton(
-                "📩 REQUEST PARTNER",
+                "📩 ✧ 𝑅𝐸𝒬𝒰𝐸𝒮𝒯 𝒫𝒜𝑅𝒯𝒩𝐸𝑅 ✧",
                 url=f"https://t.me/{data['pj']}"
             )
         ])
@@ -1278,8 +1279,17 @@ def start_cmd(update: Update, context: CallbackContext):
     if "rules" in data:
         buttons.append([
             InlineKeyboardButton(
-                "📜 RULES PARTNER",
+                "📜 ༺ 𝑹𝑼𝑳𝑬𝑺 𝑷𝑨𝑹𝑻𝑵𝑬𝑹 ༻",
                 callback_data="rules"
+            )
+        ])
+
+    # 🔥 TAMBAHAN LIVE CHAT (EMOJI)
+    if data.get("livechat"):
+        buttons.append([
+            InlineKeyboardButton(
+                "💬 ✧ 𝐋𝐈𝐕𝐄 𝐂𝐇𝐀𝐓 ✧",
+                url=data["livechat"]
             )
         ])
 
