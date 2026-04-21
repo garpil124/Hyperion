@@ -1248,17 +1248,22 @@ def start_cmd(update: Update, context: CallbackContext):
 
     # ================= FINAL TEXT (FIX CLEAN) =================
     text = (
-        "𓊆 ✨  𝐖𝐄𝐋𝐂𝐎𝐌𝐄 𝐓𝐎 𝗕𝗢𝗧 𝙉𝙊𝙄𝙍𝙁𝙇𝙐𝙀𝙍 ✨ 𓊇 \n\n"
+    "𓊆 ✨  𝐖𝐄𝐋𝐂𝐎𝐌𝐄 𝐓𝐎 𝗕𝗢𝗧 𝗛𝗬𝗣𝗘𝗥𝗜𝗢𝗡  ✨ 𓊇 \n\n"
 
-        "╭───────────────╮\n"
-        "│ ٬٬ ࣪ ، 𒀭 bot tag all dengan sistem otomatis.\n"
-        "│ ٬٬ ࣪ ، 𒀭 silakan untuk screenshot sendiri.\n"
-        "╰───────────────╯\n\n"
+    "╭───────────────╮\n"
+    "│ ٬٬ ࣪ ، 𒀭 sistem tagall otomatis & cepat.\n"
+    "│ ٬٬ ࣪ ، 𒀭 cukup screenshot / kirim teks.\n"
+    "│ ٬٬ ࣪ ، 𒀭 bot langsung eksekusi tanpa delay.\n"
+    "╰───────────────╯\n\n"
 
-        "        ㅤ\n"
-        "     ˖ ╲ ( II.᯽ request dan cek rules partner bisa tap opsi di bawah)"
-    )
+    "✦ 𝐂𝐀𝐑𝐀 𝐏𝐀𝐊𝐀𝐈 ✦\n"
+    "⟡ kirim pesan / kata yang ingin ditag\n"
+    "⟡ bot auto memproses tagall anda\n"
+    "⟡ jika bot diem tidak jalan silahkan kesini @livechtBot\n\n"
 
+    "        ㅤ\n"
+    "     ˖ ╲ ( II.᯽ request & rules partner klik tombol di bawah)"
+)
     # ================= BUTTON =================
     buttons = []
 
