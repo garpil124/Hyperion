@@ -1197,12 +1197,14 @@ def start_cmd(update: Update, context: CallbackContext):
 
     # ================= RGB GLITCH =================
     glitch = [
-        "💜 𝑵𝑶𝑰𝑹𝑭𝑳𝑼𝑬𝑹 💜",
-        "💙 𝗡𝗢𝗜𝗥𝗙𝗟𝗨𝗘𝗥 💙",
-        "💚 𝙉𝙊𝙄𝙍𝙁𝙇𝙐𝙀𝙍 💚",
-        "💛 𝐍𝐎𝐈𝐑𝐅𝐋𝐔𝐄𝐑 💛",
-        "🧡 𝒩𝒪ℐℛ𝒻𝓁𝓊ℯ𝓇 🧡",
-        "❤️ ＮＯＩＲＦＬＵＥＲ ❤️"
+        "⏩ H ",
+        "⏩ H Y ",
+        "⏩ H Y P ",
+        "⏩ H Y P E ",
+        "⏩ H Y P E R ",
+        "⏩ H Y P E R I ",
+        "⏩ H Y P E R I O ",
+        "⏩ H Y P E R I O N ",
 ]
 
     for g in glitch:
