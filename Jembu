@@ -996,6 +996,11 @@ def help_owner(update: Update, context: CallbackContext):
 
         "📢 𝗕𝗥𝗢𝗔𝗗𝗖𝗔𝗦𝗧\n"
         "➜ /bc pesan\n\n"
+    
+        "💌 𝗟𝗜𝗩𝗘 𝗖𝗛𝗔𝗧\n"
+        "➜ /live chat\n"
+        "➜ /addlivechat\n"
+        "➜ /dellivecaht\n\n"
 
         "🏷️ 𝗧𝗔𝗚𝗔𝗟𝗟\n"
         "➜ /tagall pesan\n"
@@ -1032,6 +1037,10 @@ def help_owner(update: Update, context: CallbackContext):
         ],
         [
             InlineKeyboardButton("🏷️ Tagall", callback_data="cmd_tagall")
+        ],
+        [
+            InlineKeyboardButton("💬 Add LiveChat", callback_data="cmd_addlivechat"),
+            InlineKeyboardButton("🗑️ Del LiveChat", callback_data="cmd_dellivechat")
         ],
         [
             InlineKeyboardButton("🤖 AutoTag", callback_data="cmd_autotag")
