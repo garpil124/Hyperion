@@ -1261,7 +1261,7 @@ def start_cmd(update: Update, context: CallbackContext):
 
     "╭───────────────╮\n"
     "│ ٬٬ ࣪ ، 𒀭 sistem tagall otomatis & cepat.\n"
-    "│ ٬٬ ࣪ ، 𒀭 cukup screenshot / kirim teks.\n"
+    "│ ٬٬ ࣪ ، 𒀭 screenshot sendiri / atau format teks.\n"
     "│ ٬٬ ࣪ ، 𒀭 bot langsung eksekusi tanpa delay.\n"
     "╰───────────────╯\n\n"
 
